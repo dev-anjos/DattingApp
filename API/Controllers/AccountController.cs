@@ -58,7 +58,7 @@ public class AccountController(DataContext context,ITokenService tokenService)  
     /// </summary>
     /// <param name="loginDto">Objeto do tipo LoginDto com o username e password</param>
     /// <returns>Se estiver tudo correto, retorna o usuario, caso contrario, retorna Unauthorized.</returns>
-    [HttpPost("login")]
+    [HttpPost("login")]//account/login
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
         var user = await context.Users.FirstOrDefaultAsync(x => 

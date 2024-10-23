@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">Dating App</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+
+        @if (accountService.currentUser()) {
+          
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Matches</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#">Listas</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#">Mensagens</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" (click)="logout()">Sair</a>
+            </li>
+          </ul>
+        }
+
+        @if (accountService.currentUser()) {
+          <div dropdown class="dropdown">
+            <a dropdownToggle href="#" class="dropdown-toggle text-light text-decoration-none">Olá {{  accountService.currentUser()?.username }}</a>
+            <div *dropdownMenu class="dropdown-menu">
+              <a href="" class="dropdown-item">Editar</a>
+              <div class="dropdown-divider"></div>
+              <a href="" class="dropdown-item" (click)="logout()">Sair</a>
+            </div>
+          </div>
+        }
+
+
+        @if (!accountService.currentUser()) {
+
+          <form #loginForm="ngForm" (ngSubmit)="login()" class="d-flex"  autocomplete="off">
+            <input name="username" 
+              [(ngModel)]="model.username"
+              class="form-control me-2" 
+              placeholder="Nome de usuario"
+            >
+  
+            <input name="password"
+              [(ngModel)]="model.password"
+              class="form-control me-2" 
+              placeholder="Senha" type="password"
+            >
+  
+            <button class="btn btn-outline-success" type="submit">Login</button>
+          </form>
+
+        }
+
+
+    
+
+      </div>
+    </div>
+</nav>

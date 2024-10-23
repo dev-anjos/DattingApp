@@ -19,7 +19,7 @@ public class UsersController(DataContext context) : BaseApiController
         return users;
     }
 
-    [Authorize]
+    [Authorize] // somente para usuarios autenticados
     [HttpGet("{id:int}")] //api/users/
     public async Task<ActionResult<AppUser>> GetUser(int id)
     {

@@ -30,8 +30,12 @@ public class AccountController(DataContext context,ITokenService tokenService)  
     {
 
         //verifica se o usuario ja existe no banco de dados
+
+        if (registerDto.Username == "" || registerDto.Password == "") return BadRequest("Nome de usuario e senha devem ser informados");
+
         if (await UserExists(registerDto.Username)) return BadRequest("Nome de usuario já utilizado");
        
+
         using var hmac = new HMACSHA512();
 
         var user = new AppUser

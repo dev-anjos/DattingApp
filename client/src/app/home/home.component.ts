@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RegisterComponent } from "../register/register.component";
 import { HttpClient } from '@angular/common/http';
+import { RegisterService } from '../_services/register.service';
 
 @Component({
   selector: 'app-home',
@@ -11,15 +12,23 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HomeComponent implements OnInit {
   http = inject(HttpClient);
+  registerService = inject(RegisterService);
+
   registerMode = false;
   users: any;
 
-  
   //ngOnInit() serve para executar algum codigo que precisa ser executado
   //ao iniciar o componente ou seja, precisamos do Usuarios para serem exibidos
 
+  /**
+   * Inicializa o componente, carregando os usuarios e setando o valor do
+   * registerMode com base no valor retornado pelo RegisterService
+   */
   ngOnInit(): void {
       this.getUSers();
+      this.registerService.getRegisterMode().subscribe((mode) => {
+        this.registerMode = mode;
+      });
   }
 
   registerToggle() {

@@ -24,18 +24,16 @@ public class AccountController(DataContext context,ITokenService tokenService)  
     /// <returns>Se estiver tudo correto, retorna o usuario, caso contrario, retorna BadRequest.</returns>
     [HttpPost("register")] //account/register
 
-     //realiza a task de registro, realizando um ação que esperar como retorno um objeto do tipo AppUser
-     // A task recebe username e password como parametro para ser trabalhada e retornada (registerDto)
+    //realiza a task de registro, realizando um ação que esperar como retorno um objeto do tipo AppUser
+    // A task recebe username e password como parametro para ser trabalhada e retornada (registerDto)
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
 
         //verifica se o usuario ja existe no banco de dados
-
         if (registerDto.Username == "" || registerDto.Password == "") return BadRequest("Nome de usuario e senha devem ser informados");
-
         if (await UserExists(registerDto.Username)) return BadRequest("Nome de usuario já utilizado");
-       
 
+        // usando o hmac para criptografar a senha
         using var hmac = new HMACSHA512();
 
         var user = new AppUser
@@ -65,11 +63,10 @@ public class AccountController(DataContext context,ITokenService tokenService)  
     [HttpPost("login")]//account/login
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
-        var user = await context.Users.FirstOrDefaultAsync(x => 
-            x.UserName == loginDto.UserName.ToLower());
+        var user = await context.Users.FirstOrDefaultAsync
+        (x => x.UserName == loginDto.UserName.ToLower());
 
         if (user == null) return Unauthorized("Nome de usuario inválido");
-
         using var hmac = new HMACSHA512(user.PasswordSalt);
 
         var ComputeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));

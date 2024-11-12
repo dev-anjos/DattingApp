@@ -13,7 +13,7 @@ namespace API.Controllers;
 
 // deve ser passado no construtor o DataContext do banco de dados
 // na url, é indificado apenas o "Account" do AccountController
-public class AccountController(DataContext context,ITokenService tokenService)  : BaseApiController
+public class AccountController(DataContext context,ITokenService tokenService) : BaseApiController
 {
 
     /// <summary>
@@ -30,28 +30,36 @@ public class AccountController(DataContext context,ITokenService tokenService)  
     {
 
         //verifica se o usuario ja existe no banco de dados
-        if (registerDto.Username == "" || registerDto.Password == "") return BadRequest("Nome de usuario e senha devem ser informados");
-        if (await UserExists(registerDto.Username)) return BadRequest("Nome de usuario já utilizado");
+        if (registerDto.Username == "" || registerDto.Password == "") 
+         return BadRequest("Nome de usuario e senha devem ser informados")
+        ;
+
+        if (await UserExists(registerDto.Username)) 
+         return BadRequest("Nome de usuario já utilizado")
+        ;
+
+        return Ok();
 
         // usando o hmac para criptografar a senha
-        using var hmac = new HMACSHA512();
+        // using var hmac = new HMACSHA512();
 
-        var user = new AppUser
-        {
-            UserName = registerDto.Username.ToLower(),
-            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-            PasswordSalt = hmac.Key
-        };
+        // var user = new AppUser
+        // {
+        //     UserName = registerDto.Username.ToLower(),
+        //     PasswordHash = 
+        //     hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
+        //     PasswordSalt = hmac.Key
+        // };
 
-        // adicionando o usuario no contexto(banco de dados) de forma assincrona.
-        context.Users.Add(user);
-        await context.SaveChangesAsync();
+        // // adicionando o usuario no contexto(banco de dados) de forma assincrona.
+        // context.Users.Add(user);
+        // await context.SaveChangesAsync();
 
-        return new UserDto
-        {
-            Username = user.UserName,
-            Token = tokenService.CreateToken(user)
-        };
+        // return new UserDto
+        // {
+        //     Username = user.UserName,
+        //     Token = tokenService.CreateToken(user)
+        // };
     }
 
     /// <summary>
@@ -64,15 +72,19 @@ public class AccountController(DataContext context,ITokenService tokenService)  
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
         var user = await context.Users.FirstOrDefaultAsync
-        (x => x.UserName == loginDto.UserName.ToLower());
+            (x => x.UserName == loginDto.UserName.ToLower())
+        ;
 
         if (user == null) return Unauthorized("Nome de usuario inválido");
         using var hmac = new HMACSHA512(user.PasswordSalt);
 
-        var ComputeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+        var computeHash = 
+            hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password))
+        ;
 
-        for (int i = 0; i < ComputeHash.Length; i++){
-            if (ComputeHash[i] != user.PasswordHash[i]) return Unauthorized("Senha inválida");
+        for (int i = 0; i < computeHash.Length; i++){
+            if (computeHash[i] != user.PasswordHash[i]) 
+            return Unauthorized("Senha inválida");
         }
 
         return new UserDto
@@ -85,6 +97,8 @@ public class AccountController(DataContext context,ITokenService tokenService)  
     //bool = boleano
     private async Task<bool> UserExists(string username)
     {
-        return await context.Users.AnyAsync(x => x.UserName.ToLower() == username.ToLower());
+        return await context.Users.AnyAsync
+            (x => x.UserName.ToLower() == username.ToLower())
+        ;
     }
 }

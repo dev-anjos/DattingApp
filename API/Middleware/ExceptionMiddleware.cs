@@ -13,7 +13,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
 	{
 		try
 		{
-				await next(context);
+			await next(context);
 		}
 		catch (Exception ex)
 		{
@@ -35,7 +35,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
 
 			var json = JsonSerializer.Serialize(response, options);
 
-			await context.Response.WriteAsync(json); // escreve o json no body da respostade
+			await context.Response.WriteAsync(json); // escreve o json no body da resposta
 		}
   }
 }

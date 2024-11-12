@@ -18,25 +18,20 @@ public class BuggyController(DataContext context) : BaseApiController
     public ActionResult<AppUser> GetNotFound()
     {
         var thing = context.Users.Find(-1); //passando id que não existe
-
         if (thing == null) return NotFound();
-
         return thing;
     }
 
-    
     [HttpGet("server-error")]
-    public ActionResult<AppUser> GetServerError()
+    public ActionResult<AppUser> GetServerError() //return AppUser caso 
     {
-        var thing = context.Users.Find(-1) ?? throw new Exception("Erro no servidor");
-
+        var thing = context.Users.Find(-1) ?? 
+        throw new Exception("Erro no servidor");
         return thing;
     }
 
-    
     [HttpGet("bad-request")]
     public ActionResult<string>  GetBadRequest(){
         return BadRequest("bad request");
     }
-
 }

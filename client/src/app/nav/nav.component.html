@@ -1,53 +1,64 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark bg-opacity-50">
-    <div class="container  ">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark bg-opacity-75" id="container" >
+    <div class="container"  >
+
+  
       <a routerLink="/" class="navbar-brand" >Dating App</a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      @if (accountService.currentUser()) {
+        <a class="navbar-brand mobileUserName">
+          Olá {{  accountService.currentUser()?.username | titlecase }}
+        </a>
+      }
+
+      <button class="navbar-toggler" (click)="toggleNavBar()" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-
-   
-            <!-- também pode ser feito dessa forma (antiga):
-            <ng-container **ngIf="accountService.currentUser()"></ng-container> -->
-          <ul class="navbar-nav me-auto mb-2 mb-md-0">
-
-            @if (accountService.currentUser()) {
-              <li class="nav-item">
-                <a routerLink="/members" routerLinkActive="active" class="nav-link" href="#">Matches</a>
-              </li>
-  
-              <li class="nav-item">
-                <a routerLink="/lists"  routerLinkActive="active" class="nav-link" href="#">Listas</a>
-              </li>
-  
-              <li class="nav-item">
-                <a routerLink="/messages"  routerLinkActive="active" class="nav-link" href="#">Mensagens</a>
-              </li>
-              <!-- <li class="nav-item">
-                <a class="nav-link" href="#" (click)="logout()">Sair</a>
-              </li> -->
-            } 
-            <li class="nav-item">
-              <a routerLink="/erros"  routerLinkActive="active" class="nav-link" href="#">Erros</a>
-            </li>
-          </ul>
+      <div class="collapse navbar-collapse" id="navbarCollapse" >
         
+        <!-- também pode ser feito dessa forma (antiga):
+        <ng-container **ngIf="accountService.currentUser()"></ng-container> -->
+        <ul class="navbar-nav me-auto mb-2 mb-md-0 ">
+
+          @if (accountService.currentUser()) {
+            <li class="nav-item">
+              <a routerLink="/members" routerLinkActive="active" class="nav-link  fw-bold " href="#"  (click)="toggleNavBar()">Matches</a>
+            </li>
+
+            <li class="nav-item">
+              <a routerLink="/lists"  routerLinkActive="active" class="nav-link fw-bold " href="#" (click)="toggleNavBar()">Listas</a>
+            </li>
+
+            <li class="nav-item">
+              <a routerLink="/messages"  routerLinkActive="active" class="nav-link fw-bold" href="#" (click)="toggleNavBar()" >Mensagens</a>
+            </li>
+
+            <li class="nav-item nav-item-mobile">
+              <a routerLink="/#"  routerLinkActive="active" class="nav-link fw-bold" href="#" (click)="toggleNavBar()" >Editar Perfil</a>
+            </li>
+
+            <li class="nav-item nav-item-mobile">
+              <a routerLink="/#"  routerLinkActive="active" class="nav-link fw-bold" href="#" (click)="toggleNavBar()"  (click)="logout()" >Sair da conta</a>
+            </li>
+          } 
+
+          <li class="nav-item">
+            <a routerLink="/erros"  routerLinkActive="active" class="nav-link fw-bold" href="#">Erros</a>
+          </li>
+        </ul>
 
         @if (accountService.currentUser()) {
-          <div dropdown class="dropdown">
-            <a dropdownToggle  class="dropdown-toggle text-light text-decoration-none">
+          <div dropdown class="dropdown mobile" >
+            <a dropdownToggle  class="mobile dropdown-toggle text-light text-decoration-none">
               Olá {{  accountService.currentUser()?.username | titlecase }}
             </a>
-            <div *dropdownMenu class="dropdown-menu">
-              <a class="dropdown-item">Editar</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" (click)="logout()">Sair</a>
+            <div *dropdownMenu class="mobile dropdown-menu">
+              <a class="dropdown-item mobile ">Editar</a>
+              <div class="dropdown-divider "></div>
+              <a class="dropdown-item mobile" (click)="logout()">Sair</a>
             </div>
           </div>
         }
-
 
         @if (!accountService.currentUser()) {
 
@@ -64,13 +75,12 @@
               placeholder="Senha" type="password"
             >
   
-            <button class="btn btn-outline-success opacity-4 " type="submit">Login</button>
+            <button class="btn btn-outline-success opacity-4 " (click)="toggleNavBar()" type="submit">Login</button>
             @if (!accountService.currentUser()) {
               <p class="text-light my-2 mx-2 ">Ou</p>
               <button (click)="registerToggle()" class="btn btn-outline-primary " type="button">Registrar</button>
             }
           </form>
-
         }
 
       </div>

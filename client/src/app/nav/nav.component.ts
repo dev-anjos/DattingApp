@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostBinding, inject } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import { AccountService } from '../_services/account.service';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -19,21 +19,35 @@ import { TitleCasePipe } from '@angular/common';
 export class NavComponent {
   accountService = inject(AccountService);
   registerService = inject(RegisterService);
-
   private router = inject(Router);
   private toaster = inject(ToastrService);
   model: any = {}; // valores de login sao pegados do formulario atraves do ngModel e passados para o login 
   userName: string = '';
+  navBarOpened = false;
+
 
 
   registerToggle() {
     this.registerService.toggleRegisterMode();
   }
-  
+
+  toggleNavBar() {
+   
+    this.navBarOpened = !this.navBarOpened;
+
+    const navbarCollapse = document.getElementById('navbarCollapse');
+    const navbar = document.getElementById('container');
+    navbarCollapse?.classList.toggle('show');
+    navbar?.classList.toggle('animate');
+
+  }
+
   login() {
     this.accountService.login(this.model).subscribe({
+
       
       next: () => {
+        console.log(this.model)
         this.router.navigateByUrl('/members');
       },
       error: error => {
@@ -46,5 +60,6 @@ export class NavComponent {
     this.accountService.logout();
     this.router.navigateByUrl('/');
   }
+
 
 }

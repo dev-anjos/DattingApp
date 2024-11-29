@@ -23,6 +23,7 @@ export class RegisterComponent {
         this.cancel();
       },
       error: error => {
+        console.log(error);
         this.toaster.error(error.error);
       }
     })

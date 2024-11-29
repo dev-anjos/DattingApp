@@ -25,8 +25,7 @@ public class BuggyController(DataContext context) : BaseApiController
     [HttpGet("server-error")]
     public ActionResult<AppUser> GetServerError() //return AppUser caso 
     {
-        var thing = context.Users.Find(-1) ?? 
-        throw new Exception("Erro no servidor");
+        var thing = context.Users.Find(-1) ?? throw new Exception("Erro no servidor");
         return thing;
     }
 

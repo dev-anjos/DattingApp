@@ -1,3 +1,46 @@
 .dropdown-tootle, .dropdown-item{
+    display: block;
     cursor: pointer;
+}
+
+.mobileUserName{
+    display: none;
+}
+.nav-item-mobile{
+    display: none;
+}
+
+.animate {
+    animation:  animation 0.5s ease-in-out forwards;
+    
+}
+.navbar{
+    border-radius: 0 0 20px 20px;
+}
+
+@keyframes animation {
+    0% { transform: translatey(-100%); }
+    100% { transform: translatey(0%); }
+    
+}
+
+@media screen and (max-width: 768px) {
+
+    .mobileUserName{
+        display:block
+    }
+    .mobile{
+        display: none;
+    }
+    .nav-item-mobile{
+        display: block;
+    }
+    .navbar-nav{
+
+        
+ 
+    }
+
+    
+ 
 }

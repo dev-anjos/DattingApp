@@ -29,7 +29,7 @@ public class AccountController(DataContext context,ITokenService tokenService) :
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
 
-        //verifica se o usuario ja existe no banco de dados
+        //validando se o username ou a senha estao vazios
         if (registerDto.Username == "" || registerDto.Password == "") 
          return BadRequest("Nome de usuario e senha devem ser informados")
         ;
@@ -38,7 +38,6 @@ public class AccountController(DataContext context,ITokenService tokenService) :
          return BadRequest("Nome de usuario já utilizado")
         ;
 
-        return Ok();
 
         // usando o hmac para criptografar a senha
         // using var hmac = new HMACSHA512();
@@ -60,6 +59,10 @@ public class AccountController(DataContext context,ITokenService tokenService) :
         //     Username = user.UserName,
         //     Token = tokenService.CreateToken(user)
         // };
+
+
+        
+        return Ok();
     }
 
     /// <summary>

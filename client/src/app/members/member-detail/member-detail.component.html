@@ -1,1 +1,66 @@
-<p>member-detail works!</p>
+<!-- se o member nao for nulo, ele vai mostrar o member detail. Se for nulo ele vai mostrar o member card. -->
+
+@if (member){ 
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <img 
+                    src="{{member.photoUrl || './seets/user.png'}}" 
+                    alt="Foto do usuario {{member.knownAs}}"
+                    class="card-img img-thumbnail"
+                >
+                <div class="card-body">
+                    <div>
+                        <strong>Localização:</strong>
+                        <p>{{member.city}}</p>
+                    </div>
+                    <div>
+                        <strong>Idade:</strong>
+                        <p>{{member.age}}</p>
+                    </div>
+                    <div>
+                        <strong>Visto por ultimo:</strong>
+                        <p>{{member.lastActive}}</p>
+                    </div>
+                    <div>
+                        <strong>Conta criada em:</strong>
+                        <p>{{member.created}}</p>
+                    </div>
+                    <div class="car-footer">
+                        <div class="btn-group d-flex">
+                            <button class="btn btn-primary w-100">Match</button>
+                            <button class="btn btn-success w-100 ">Mensagens</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <tabset class="member-tabset">
+                <tab heading="Sobre {{member.knownAs}}">
+                    <h4>Descrição</h4>
+                    <p>{{member.introduction}}</p>
+                    <h4>Procurando por:</h4>
+                    <p>{{member.lookingFor}}</p>
+                </tab>
+                <tab heading="Interesses">
+             
+                    <h4>Interesses</h4>
+                    <p>{{member.interests}}</p>
+                </tab>
+                <tab heading="Fotos"  #photoTab="tab">
+                    @if (photoTab.active) {
+                        <gallery  thumbPosition="left" autoPlay="true"
+                            [items]="images"
+                            class="gallery"
+                        ></gallery>
+                    }
+                
+                </tab>
+                <tab heading="Mensagens">
+                    <p>Mensagens</p>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+}

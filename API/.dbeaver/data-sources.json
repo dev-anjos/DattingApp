@@ -1,0 +1,35 @@
+{
+	"folders": {},
+	"connections": {
+		"sqlite_jdbc-193555137f8-f70e11a0fa7c44f": {
+			"provider": "sqlite",
+			"driver": "sqlite_jdbc",
+			"name": "dating.db",
+			"save-password": true,
+			"configuration": {
+				"database": "E:\\Cursodotnet\\DattingApp\\API\\dating.db",
+				"url": "jdbc:sqlite:E:\\Cursodotnet\\DattingApp\\API\\dating.db",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"closeIdleConnection": true,
+				"auth-model": "native"
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Desenvolvimento",
+			"color": "255,255,255",
+			"description": "Banco de dados de desenvolvimento",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"smart-commit": false,
+			"smart-commit-recover": true,
+			"auto-close-transactions": true,
+			"close-transactions-period": 1800,
+			"auto-close-connections": true,
+			"close-connections-period": 14400
+		}
+	}
+}
